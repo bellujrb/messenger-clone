@@ -23,7 +23,7 @@ import kotlinx.coroutines.delay
 fun WelcomeScreen(navController: NavController) {
 
     LaunchedEffect(key1 = null){
-        delay(2500)
+        delay(10)
         navController.navigate("home")
     }
     MessengerCloneTheme {
