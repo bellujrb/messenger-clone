@@ -18,18 +18,30 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.DefaultTintColor
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewModelScope
 import dev.bellu.messenger_clone.presentation.theme.MessengerCloneTheme
 import dev.bellu.messenger_clone.R
+import dev.bellu.messenger_clone.data.database.MessengerDatabase
 import dev.bellu.messenger_clone.presentation.composables.AddStory
 import dev.bellu.messenger_clone.presentation.composables.AppBar
 import dev.bellu.messenger_clone.presentation.composables.InputSearch
 import dev.bellu.messenger_clone.presentation.composables.PersonStory
+import dev.bellu.messenger_clone.presentation.viewmodel.HomeViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(viewModel: HomeViewModel = HomeViewModel(
+    db = MessengerDatabase.getDatabase(
+        LocalContext.current
+    )
+)
+) {
+
+    val uiState: State<HomeUiState> = viewModel.uiState.collectAsState()
 
     MessengerCloneTheme {
         Scaffold(
@@ -53,16 +65,16 @@ fun HomeScreen() {
                     Spacer(modifier = Modifier.height(10.dp))
                     InputSearch()
                     Spacer(modifier = Modifier.height(10.dp))
-                    LazyRow(
-                        modifier = Modifier
-                            .height(100.dp)
-                    ) {
-                        items(1) { index ->
-                            if (index == 0) {
-                                AddStory()
+                    Row {
+                        AddStory()
+                        LazyRow(
+                            modifier = Modifier
+                                .height(100.dp)
+                        ) {
+                            items(uiState.value.users.size) {index ->
                                 PersonStory(
-                                    name = "Bellu",
-                                    photo = "https://images.unsplash.com/photo-1554151228-14d9def656e4?q=80&w=1886&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    name = uiState.value.users[index].name,
+                                    photo = uiState.value.users[index].photo
                                 )
                             }
                         }

@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -47,6 +48,15 @@ android {
 }
 
 dependencies {
+    val roomVersion = "2.6.1"
+
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.datastore:datastore-preferences-rxjava2:1.0.0")
+    implementation("androidx.datastore:datastore-preferences-rxjava3:1.0.0")
     implementation("io.coil-kt:coil-compose:2.5.0")
     implementation("androidx.navigation:navigation-compose:2.7.6")
     implementation("androidx.core:core-ktx:1.12.0")
