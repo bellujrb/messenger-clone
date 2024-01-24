@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -25,10 +26,7 @@ import androidx.lifecycle.viewModelScope
 import dev.bellu.messenger_clone.presentation.theme.MessengerCloneTheme
 import dev.bellu.messenger_clone.R
 import dev.bellu.messenger_clone.data.database.MessengerDatabase
-import dev.bellu.messenger_clone.presentation.composables.AddStory
-import dev.bellu.messenger_clone.presentation.composables.AppBar
-import dev.bellu.messenger_clone.presentation.composables.InputSearch
-import dev.bellu.messenger_clone.presentation.composables.PersonStory
+import dev.bellu.messenger_clone.presentation.composables.*
 import dev.bellu.messenger_clone.presentation.viewmodel.HomeViewModel
 import kotlinx.coroutines.launch
 
@@ -77,6 +75,19 @@ fun HomeScreen(viewModel: HomeViewModel = HomeViewModel(
                                     photo = uiState.value.users[index].photo
                                 )
                             }
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    LazyColumn{
+                        items(1){
+                            ChatPreview(
+                                photo = "https://images.unsplash.com/photo-1635488640163-e5f6782cda6e?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                                name = "Elena",
+                                lastMessageIsYou = true,
+                                lastMessage = "What’s man!",
+                                time = "9:40",
+                                status = true
+                            )
                         }
                     }
                 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -40,7 +41,7 @@ fun AppBar(title: String){
         },
         actions = {
             CircleItem(
-                icon = Icons.Outlined.Send,
+                icon = Icons.Outlined.Build,
                 description = "Camera",
                 onClick = {}
             )
