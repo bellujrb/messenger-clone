@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import dev.bellu.messenger_clone.R
+import dev.bellu.messenger_clone.presentation.theme.Typography
 
 
 @Composable
@@ -60,7 +61,7 @@ fun ChatPreview(
             )
 
             Column {
-                Text(name)
+                Text(name, style = Typography.headlineMedium)
                 Row {
                     Text(
                         "" +
@@ -68,9 +69,9 @@ fun ChatPreview(
                                     if (lastMessageIsYou)
                                         "You:" else "$name:"
                                 } " +
-                                "$lastMessage · "
+                                "$lastMessage · ", style = Typography.displayMedium
                     )
-                    Text("$time AM")
+                    Text("$time AM", style = Typography.displayMedium)
                 }
             }
 

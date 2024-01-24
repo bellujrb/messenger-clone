@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import dev.bellu.messenger_clone.presentation.theme.Typography
 
 @Composable
 fun PersonStory(name: String, photo: String) {
@@ -37,6 +38,6 @@ fun PersonStory(name: String, photo: String) {
                 )
             }
         )
-        Text(name)
+        Text(name, style = Typography.displaySmall)
     }
 }

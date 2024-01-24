@@ -13,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import dev.bellu.messenger_clone.presentation.theme.Typography
 
 @Composable
 fun InputSearch() {
@@ -32,8 +33,9 @@ fun InputSearch() {
             )
         },
         placeholder = {
-            Text(text = "Search")
+            Text(text = "Search", style = Typography.displayMedium)
         },
+        textStyle = Typography.displayMedium,
         modifier = Modifier
             .fillMaxWidth(0.9f)
             .clip(shape = RoundedCornerShape(16))

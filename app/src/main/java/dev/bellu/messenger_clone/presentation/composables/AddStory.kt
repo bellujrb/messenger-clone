@@ -8,10 +8,12 @@ import androidx.compose.material.icons.sharp.Add
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.bellu.messenger_clone.presentation.theme.Typography
 
 @Composable
 fun AddStory() {
@@ -37,6 +39,6 @@ fun AddStory() {
                 )
             }
         )
-        Text("Your story")
+        Text("Your story", style = Typography.displaySmall)
     }
 }
