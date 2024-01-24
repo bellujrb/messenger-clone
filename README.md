@@ -23,6 +23,7 @@ I am creating a clone of an existing application to study Android development fe
 
 ### Language 
 - Kotlin with Jetpack Compose
+- SQL
 
 ### External Packages 
 - Navigation Compose
