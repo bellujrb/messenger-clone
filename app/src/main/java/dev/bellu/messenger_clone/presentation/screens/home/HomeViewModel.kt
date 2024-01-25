@@ -1,12 +1,10 @@
-package dev.bellu.messenger_clone.presentation.viewmodel
+package dev.bellu.messenger_clone.presentation.screens.home
 
 import android.util.Log
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.bellu.messenger_clone.data.database.MessengerDatabase
-import dev.bellu.messenger_clone.data.entity.UserEntity
-import dev.bellu.messenger_clone.presentation.screens.HomeUiState
+import dev.bellu.messenger_clone.presentation.screens.home.HomeUiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -1,4 +1,4 @@
-package dev.bellu.messenger_clone.presentation.screens
+package dev.bellu.messenger_clone.presentation.screens.welcome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
