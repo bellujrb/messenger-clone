@@ -41,6 +41,7 @@ fun ChatPreview(
     lastMessage: String,
     time: String,
     status: Boolean,
+    onClick: () -> Unit
 ) {
 
     var offsetX by remember { mutableFloatStateOf(0f) }
@@ -53,6 +54,7 @@ fun ChatPreview(
         modifier = Modifier
             .fillMaxWidth()
             .height(76.dp)
+            .clickable { onClick() }
             .offset { IntOffset(offsetX.roundToInt(), 0) }
             .draggable(
                 orientation = Orientation.Horizontal,

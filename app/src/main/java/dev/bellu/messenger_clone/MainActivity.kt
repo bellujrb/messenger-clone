@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import dev.bellu.messenger_clone.presentation.screens.chat.ChatScreen
 import dev.bellu.messenger_clone.presentation.screens.home.HomeScreen
 import dev.bellu.messenger_clone.presentation.screens.welcome.WelcomeScreen
 
@@ -17,7 +18,8 @@ class MainActivity : ComponentActivity() {
 
             NavHost(navController = navController, startDestination = "welcome"){
                 composable("welcome") { WelcomeScreen(navController) }
-                composable("home") { HomeScreen() }
+                composable("home") { HomeScreen(navController) }
+                composable("chat") { ChatScreen(navController)}
             }
         }
     }

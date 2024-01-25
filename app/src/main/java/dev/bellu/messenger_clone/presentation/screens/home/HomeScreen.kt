@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import dev.bellu.messenger_clone.presentation.theme.MessengerCloneTheme
 import dev.bellu.messenger_clone.data.database.MessengerDatabase
 import dev.bellu.messenger_clone.presentation.composables.*
@@ -18,6 +19,7 @@ import dev.bellu.messenger_clone.presentation.composables.AppBar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    navController: NavController,
     viewModel: HomeViewModel = HomeViewModel(
         db = MessengerDatabase.getDatabase(
             LocalContext.current
@@ -73,7 +75,10 @@ fun HomeScreen(
                                 lastMessageIsYou = true,
                                 lastMessage = "What’s man!",
                                 time = "9:40",
-                                status = true
+                                status = true,
+                                onClick = {
+                                    navController.navigate("chat")
+                                }
                             )
                         }
                     }
