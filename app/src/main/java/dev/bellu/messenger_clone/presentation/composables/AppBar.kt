@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Build
@@ -18,25 +19,33 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import dev.bellu.messenger_clone.R
+import coil.compose.AsyncImage
 import dev.bellu.messenger_clone.presentation.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBar(title: String){
+fun AppBar(title: String) {
+
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background
         ),
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(id = R.drawable.photo_visit),
-                    contentDescription = "Photo Visit",
+                Box(
                     modifier = Modifier
                         .height(40.dp)
                         .width(40.dp)
-                        .clip(shape = RoundedCornerShape(100))
+                        .clip(shape = CircleShape)
+                        .background(color = MaterialTheme.colorScheme.secondary),
+                    content = {
+                        AsyncImage(
+                            model = "",
+                            contentDescription = "Person",
+                            modifier = Modifier
+                                .fillMaxSize()
+                        )
+                    }
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(title, style = Typography.bodyLarge)

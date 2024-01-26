@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.bellu.messenger_clone.data.database.MessengerDatabase
+import dev.bellu.messenger_clone.data.entity.UserEntity
 import dev.bellu.messenger_clone.presentation.screens.home.HomeUiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,13 +17,8 @@ class HomeViewModel(private val db: MessengerDatabase): ViewModel(){
 
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
+    suspend fun fetchDatabase(){
 
-    init {
-        viewModelScope.launch {
-            fetchDatabase()
-        }
-    }
-    private suspend fun fetchDatabase(){
         val data = withContext(Dispatchers.IO){
             db.messengerDao().getAll()
         }

@@ -30,6 +30,16 @@ val Typography = Typography(
         fontSize = 15.sp,
         color = Black30
     ),
+    labelSmall = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.5.sp,
+        color = White
+    ),
+    headlineSmall = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.5.sp,
+        color = Black
+    ),
     headlineMedium = TextStyle(
         fontWeight = FontWeight.Medium,
         fontSize = 18.sp,

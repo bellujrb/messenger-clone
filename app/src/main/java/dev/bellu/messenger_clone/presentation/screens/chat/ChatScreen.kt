@@ -1,33 +1,61 @@
 package dev.bellu.messenger_clone.presentation.screens.chat
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Send
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.material.icons.outlined.Mic
 import androidx.compose.material.icons.outlined.Photo
+import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import dev.bellu.messenger_clone.data.database.MessengerDatabase
+import dev.bellu.messenger_clone.presentation.composables.ReceiveMessage
+import dev.bellu.messenger_clone.presentation.composables.SendMessage
+import dev.bellu.messenger_clone.presentation.screens.home.HomeUiState
+import dev.bellu.messenger_clone.presentation.screens.home.HomeViewModel
 import dev.bellu.messenger_clone.presentation.theme.Blue
 import dev.bellu.messenger_clone.presentation.theme.MessengerCloneTheme
 import dev.bellu.messenger_clone.presentation.theme.Typography
 
 @Composable
-fun ChatScreen(navController: NavController) {
+fun ChatScreen(
+    navController: NavController,
+    viewModel: HomeViewModel = HomeViewModel(
+        db = MessengerDatabase.getDatabase(
+            LocalContext.current
+        )
+    ),
+) {
+
+    val uiState: State<HomeUiState> = viewModel.uiState.collectAsState()
 
     var value by remember { mutableStateOf("") }
+
+    val messages: List<String> = listOf(
+        "Hello, Jacob!",
+        "How are you doing?"
+    )
+
+    val messagesTwo: List<String> = listOf(
+        "Hello!",
+        "I'm very good"
+    )
 
     MessengerCloneTheme {
         Scaffold(
@@ -57,17 +85,44 @@ fun ChatScreen(navController: NavController) {
                         }
                     )
                     Spacer(modifier = Modifier.height(10.dp))
-                    Text("Sophia", style = Typography.bodyMedium)
+                    Text("", style = Typography.bodyMedium)
                     Spacer(modifier = Modifier.height(5.dp))
                     Text("You are connected on Messenger", style = Typography.displayMedium)
+                    Spacer(modifier = Modifier.height(20.dp))
                     LazyColumn(
-                        horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
                             .weight(1f)
-                            .fillMaxWidth(),
+                            .fillMaxWidth(0.9f),
                         content = {
-                            items(1) {
-                                // MSG Here!
+
+                            val lastNumber = messages.indexOfLast { true }
+
+                            items(messages.size - 1) { index ->
+                                Row {
+                                    Spacer(modifier = Modifier.width(50.dp))
+                                    ReceiveMessage(text = messages[index])
+                                }
+                                if (index + 1 == lastNumber) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        CircleAvatarCustom()
+                                        Spacer(modifier = Modifier.width(10.dp))
+                                        ReceiveMessage(text = messages[lastNumber])
+                                    }
+                                }
+                            }
+
+                            item {
+                                Spacer(modifier = Modifier.height(10.dp))
+                            }
+
+                            items(messagesTwo.size) { index ->
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .align(Alignment.End)
+                                ) {
+                                    SendMessage(text = messagesTwo[index])
+                                }
                             }
                         }
                     )
@@ -90,8 +145,19 @@ fun ChatScreen(navController: NavController) {
                             textStyle = Typography.displayMedium,
                             modifier = Modifier
                                 .height(48.dp)
-                                .fillMaxWidth(0.9f)
+                                .fillMaxWidth(0.8f)
                                 .clip(shape = RoundedCornerShape(16))
+                        )
+                        Spacer(modifier = Modifier.width(5.dp))
+                        IconButton(
+                            onClick = { /*TODO*/ },
+                            content = {
+                                Icon(
+                                    tint = Blue,
+                                    imageVector = Icons.AutoMirrored.Outlined.Send,
+                                    contentDescription = "Camera"
+                                )
+                            }
                         )
                     }
                 }
@@ -102,7 +168,7 @@ fun ChatScreen(navController: NavController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AppBar(navController: NavController){
+private fun AppBar(navController: NavController) {
     TopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -149,9 +215,27 @@ private fun AppBar(navController: NavController){
     )
 }
 
+@Composable
+private fun CircleAvatarCustom() {
+    Box(
+        modifier = Modifier
+            .height(40.dp)
+            .width(40.dp)
+            .clip(shape = CircleShape)
+            .background(color = MaterialTheme.colorScheme.secondary),
+        content = {
+            AsyncImage(
+                model = "",
+                contentDescription = "Person",
+                modifier = Modifier
+                    .fillMaxSize()
+            )
+        }
+    )
+}
 
 @Composable
-private fun IconsChat(){
+private fun IconsChat() {
     IconButton(
         onClick = { /*TODO*/ },
         content = {

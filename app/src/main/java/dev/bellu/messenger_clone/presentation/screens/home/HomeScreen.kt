@@ -1,5 +1,7 @@
 package dev.bellu.messenger_clone.presentation.screens.home
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,8 +17,9 @@ import dev.bellu.messenger_clone.presentation.theme.MessengerCloneTheme
 import dev.bellu.messenger_clone.data.database.MessengerDatabase
 import dev.bellu.messenger_clone.presentation.composables.*
 import dev.bellu.messenger_clone.presentation.composables.AppBar
+import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun HomeScreen(
     navController: NavController,
@@ -28,16 +31,21 @@ fun HomeScreen(
 ) {
 
     val uiState: State<HomeUiState> = viewModel.uiState.collectAsState()
+    val scope = rememberCoroutineScope()
+
+    scope.launch {
+        viewModel.fetchDatabase()
+    }
 
     MessengerCloneTheme {
         Scaffold(
             topBar = {
                 AppBar(
-                    title = "Chats"
+                    title = "Chats",
                 )
             },
             containerColor = MaterialTheme.colorScheme.background,
-            bottomBar = { BottomBarCustom()}
+            bottomBar = { BottomBarCustom() }
         ) { innerPadding ->
             Surface(
                 modifier = Modifier
@@ -46,11 +54,15 @@ fun HomeScreen(
                     .background(color = MaterialTheme.colorScheme.background)
             ) {
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxSize()
                 ) {
                     Spacer(modifier = Modifier.height(10.dp))
-                    InputSearch()
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        InputSearch()
+                    }
                     Spacer(modifier = Modifier.height(10.dp))
                     Row {
                         AddStory()
@@ -59,10 +71,12 @@ fun HomeScreen(
                                 .height(100.dp)
                         ) {
                             items(uiState.value.users.size) { index ->
-                                PersonStory(
-                                    name = uiState.value.users[index].name,
-                                    photo = uiState.value.users[index].photo
-                                )
+                                if (index > 0) {
+                                    PersonStory(
+                                        name = uiState.value.users[index].name,
+                                        photo = uiState.value.users[index].photo
+                                    )
+                                }
                             }
                         }
                     }

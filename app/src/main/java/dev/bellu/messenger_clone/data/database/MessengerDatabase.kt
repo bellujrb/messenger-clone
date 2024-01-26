@@ -8,14 +8,14 @@ import dev.bellu.messenger_clone.data.contracts.MessengerDao
 import dev.bellu.messenger_clone.data.entity.MessageEntity
 import dev.bellu.messenger_clone.data.entity.UserEntity
 
-@Database(entities = [UserEntity::class], version = 1, exportSchema = false)
+@Database(entities = [UserEntity::class, MessageEntity::class], version = 1, exportSchema = false)
 abstract class MessengerDatabase: RoomDatabase(){
     abstract fun messengerDao(): MessengerDao
 
     companion object{
         fun getDatabase(context: Context): MessengerDatabase {
             return Room.databaseBuilder(
-                name = "msg_db",
+                name = "message_db",
                 context = context.applicationContext,
                 klass = MessengerDatabase::class.java
             )
