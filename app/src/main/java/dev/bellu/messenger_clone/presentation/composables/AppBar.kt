@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Build
+import androidx.compose.material.icons.outlined.CameraAlt
+import androidx.compose.material.icons.outlined.NewLabel
 import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -42,13 +44,13 @@ fun AppBar(title: String){
         },
         actions = {
             CircleItem(
-                icon = Icons.Outlined.Build,
+                icon = Icons.Outlined.CameraAlt,
                 description = "Camera",
                 onClick = {}
             )
             Spacer(modifier = Modifier.width(10.dp))
             CircleItem(
-                icon = Icons.Outlined.Send,
+                icon = Icons.Outlined.NewLabel,
                 description = "Send",
                 onClick = {}
             )
@@ -61,8 +63,8 @@ private fun CircleItem(icon: ImageVector, description: String, onClick: () -> Un
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .height(32.dp)
-            .width(32.dp)
+            .height(40.dp)
+            .width(40.dp)
             .background(
                 color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.08F),
                 shape = RoundedCornerShape(100)
