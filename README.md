@@ -28,9 +28,10 @@ I am creating a clone of an existing application to study Android development fe
 ### External Packages 
 - Navigation Compose
 - Coil Compose
-- Room
+- Room (Database SQL)
 - Livedata
-- Datastore Preferences RXJAVA
+- Koin (Injection Dependency)
+- Datastore Preferences RXJAVA 
   
 
 ### Architecture 
