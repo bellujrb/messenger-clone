@@ -15,27 +15,20 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import dev.bellu.messenger_clone.presentation.theme.MessengerCloneTheme
 import dev.bellu.messenger_clone.data.database.MessengerDatabase
+import dev.bellu.messenger_clone.data.entity.UserEntity
 import dev.bellu.messenger_clone.presentation.composables.*
 import dev.bellu.messenger_clone.presentation.composables.AppBar
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: HomeViewModel = HomeViewModel(
-        db = MessengerDatabase.getDatabase(
-            LocalContext.current
-        )
-    ),
+    viewModel: HomeViewModel = getViewModel(),
 ) {
 
     val uiState: State<HomeUiState> = viewModel.uiState.collectAsState()
-    val scope = rememberCoroutineScope()
-
-    scope.launch {
-        viewModel.fetchDatabase()
-    }
 
     MessengerCloneTheme {
         Scaffold(

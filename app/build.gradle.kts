@@ -49,6 +49,9 @@ android {
 
 dependencies {
     val roomVersion = "2.6.1"
+    val koinVersion = "3.2.0"
+
+    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
 
     implementation("androidx.compose.material:material-icons-extended:1.6.0")
     implementation("androidx.room:room-runtime:$roomVersion")

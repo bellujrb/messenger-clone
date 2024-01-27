@@ -32,35 +32,23 @@ import dev.bellu.messenger_clone.presentation.screens.home.HomeViewModel
 import dev.bellu.messenger_clone.presentation.theme.Blue
 import dev.bellu.messenger_clone.presentation.theme.MessengerCloneTheme
 import dev.bellu.messenger_clone.presentation.theme.Typography
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun ChatScreen(
     navController: NavController,
-    viewModel: HomeViewModel = HomeViewModel(
-        db = MessengerDatabase.getDatabase(
-            LocalContext.current
-        )
-    ),
+    viewModel: ChatViewModel = getViewModel(),
 ) {
 
-    val uiState: State<HomeUiState> = viewModel.uiState.collectAsState()
-
     var value by remember { mutableStateOf("") }
-
-    val messages: List<String> = listOf(
-        "Hello, Jacob!",
-        "How are you doing?"
-    )
-
-    val messagesTwo: List<String> = listOf(
-        "Hello!",
-        "I'm very good"
-    )
 
     MessengerCloneTheme {
         Scaffold(
             topBar = {
-                AppBar(navController = navController)
+                AppBar(
+                    navController = navController,
+                    photoUser = viewModel.img
+                )
             },
             content = { innerPadding ->
                 Column(
@@ -77,7 +65,7 @@ fun ChatScreen(
                             .background(color = MaterialTheme.colorScheme.secondary),
                         content = {
                             AsyncImage(
-                                model = "",
+                                model = viewModel.img,
                                 contentDescription = "Person",
                                 modifier = Modifier
                                     .fillMaxSize()
@@ -95,18 +83,20 @@ fun ChatScreen(
                             .fillMaxWidth(0.9f),
                         content = {
 
-                            val lastNumber = messages.indexOfLast { true }
+                            val lastNumber = viewModel.messages.indexOfLast { true }
 
-                            items(messages.size - 1) { index ->
+                            items(viewModel.messages.size - 1) { index ->
                                 Row {
                                     Spacer(modifier = Modifier.width(50.dp))
-                                    ReceiveMessage(text = messages[index])
+                                    ReceiveMessage(text = viewModel.messages[index])
                                 }
                                 if (index + 1 == lastNumber) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
-                                        CircleAvatarCustom()
+                                        CircleAvatarCustom(
+                                            photoUser = viewModel.img
+                                        )
                                         Spacer(modifier = Modifier.width(10.dp))
-                                        ReceiveMessage(text = messages[lastNumber])
+                                        ReceiveMessage(text = viewModel.messages[lastNumber])
                                     }
                                 }
                             }
@@ -115,13 +105,13 @@ fun ChatScreen(
                                 Spacer(modifier = Modifier.height(10.dp))
                             }
 
-                            items(messagesTwo.size) { index ->
+                            items(viewModel.messagesTwo.size) { index ->
                                 Box(
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .align(Alignment.End)
                                 ) {
-                                    SendMessage(text = messagesTwo[index])
+                                    SendMessage(text = viewModel.messagesTwo[index])
                                 }
                             }
                         }
@@ -168,7 +158,7 @@ fun ChatScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AppBar(navController: NavController) {
+private fun AppBar(navController: NavController, photoUser: String) {
     TopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -186,21 +176,7 @@ private fun AppBar(navController: NavController) {
                     }
                 )
                 Spacer(modifier = Modifier.width(5.dp))
-                Box(
-                    modifier = Modifier
-                        .height(40.dp)
-                        .width(40.dp)
-                        .clip(shape = CircleShape)
-                        .background(color = MaterialTheme.colorScheme.secondary),
-                    content = {
-                        AsyncImage(
-                            model = "",
-                            contentDescription = "Person",
-                            modifier = Modifier
-                                .fillMaxSize()
-                        )
-                    }
-                )
+                CircleAvatarCustom(photoUser = photoUser)
                 Spacer(modifier = Modifier.width(10.dp))
                 Column {
                     Text("Sophia", style = Typography.headlineMedium)
@@ -216,7 +192,7 @@ private fun AppBar(navController: NavController) {
 }
 
 @Composable
-private fun CircleAvatarCustom() {
+private fun CircleAvatarCustom(photoUser: String) {
     Box(
         modifier = Modifier
             .height(40.dp)
@@ -225,7 +201,7 @@ private fun CircleAvatarCustom() {
             .background(color = MaterialTheme.colorScheme.secondary),
         content = {
             AsyncImage(
-                model = "",
+                model = photoUser,
                 contentDescription = "Person",
                 modifier = Modifier
                     .fillMaxSize()
