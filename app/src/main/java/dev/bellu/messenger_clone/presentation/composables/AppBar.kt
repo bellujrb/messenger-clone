@@ -19,12 +19,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import dev.bellu.messenger_clone.presentation.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBar(title: String) {
+fun AppBar(title: String, model: String, navController: NavController) {
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -36,11 +37,14 @@ fun AppBar(title: String) {
                     modifier = Modifier
                         .height(40.dp)
                         .width(40.dp)
+                        .clickable {
+                            navController.navigate("settings")
+                        }
                         .clip(shape = CircleShape)
                         .background(color = MaterialTheme.colorScheme.secondary),
                     content = {
                         AsyncImage(
-                            model = "",
+                            model = model,
                             contentDescription = "Person",
                             modifier = Modifier
                                 .fillMaxSize()

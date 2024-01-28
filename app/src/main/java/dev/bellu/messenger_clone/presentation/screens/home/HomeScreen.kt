@@ -33,11 +33,15 @@ fun HomeScreen(
 
     val uiState: State<BaseUiState> = viewModelBase.uiState.collectAsState()
 
+    val model = uiState.value.users.getOrNull(0)?.photo ?: "Empty"
+
     MessengerCloneTheme {
         Scaffold(
             topBar = {
                 AppBar(
                     title = "Chats",
+                    model = model,
+                    navController = navController
                 )
             },
             containerColor = MaterialTheme.colorScheme.background,

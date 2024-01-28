@@ -97,7 +97,9 @@ fun ChatScreen(
                             .fillMaxWidth(0.9f),
                         content = {
 
-                            items(uiState.value.messages.size) { index ->
+                            val sortedMessages = uiState.value.messages.sortedBy { it.timestamp }
+
+                            items(sortedMessages.size) { index ->
 
                                 val senderId: Int = uiState.value.messages[index].senderId
 
