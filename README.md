@@ -33,7 +33,8 @@ I am creating a clone of an existing application to study Android development fe
 - Koin (Injection Dependency)
 - Datastore Preferences RXJAVA 
   
-
+### Design Pattern
+- MVVM
+  
 ### Architecture 
 - Clean Architecture
-- MVVM
