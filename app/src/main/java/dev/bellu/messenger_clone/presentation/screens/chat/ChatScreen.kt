@@ -41,10 +41,6 @@ fun ChatScreen(
 
     val index = uiState.value.currentMessage
 
-    LaunchedEffect(key1 = null){
-        Log.e("Index!", index.toString())
-    }
-
     val actualName = uiStateBase.value.users.getOrNull(index)?.name ?: "Empty"
     val actualPhoto = uiStateBase.value.users.getOrNull(index)?.photo ?: "Empty"
 
@@ -55,6 +51,7 @@ fun ChatScreen(
             topBar = {
                 AppBar(
                     navController = navController,
+                    nameUser = actualName,
                     photoUser = actualPhoto,
                 )
             },
@@ -94,35 +91,28 @@ fun ChatScreen(
                             .fillMaxWidth(0.9f),
                         content = {
 
-                            val lastNumber = viewModel.messages.indexOfLast { true }
+                            items(uiState.value.messages.size) { index ->
 
-                            items(viewModel.messages.size - 1) { index ->
-                                Row {
-                                    Spacer(modifier = Modifier.width(50.dp))
-                                    ReceiveMessage(text = viewModel.messages[index])
-                                }
-                                if (index + 1 == lastNumber) {
+                                val ownerChat = uiState.value.ownerChat
+                                val userChat = uiState.value.userChat
+
+                                val senderId: Int = uiState.value.messages[index].senderId
+
+                                if (ownerChat == senderId) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         CircleAvatarCustom(
                                             photoUser = actualPhoto
                                         )
                                         Spacer(modifier = Modifier.width(10.dp))
-                                        ReceiveMessage(text = viewModel.messages[lastNumber])
+                                        ReceiveMessage(text = uiState.value.messages[index].content)
                                     }
                                 }
-                            }
 
-                            item {
-                                Spacer(modifier = Modifier.height(10.dp))
-                            }
-
-                            items(viewModel.messagesTwo.size) { index ->
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .align(Alignment.End)
-                                ) {
-                                    SendMessage(text = viewModel.messagesTwo[index])
+                                if (userChat == senderId) {
+                                    Row {
+                                        Spacer(modifier = Modifier.fillMaxSize(0.7f))
+                                        SendMessage(text = uiState.value.messages[index].content)
+                                    }
                                 }
                             }
                         }
@@ -156,7 +146,7 @@ fun ChatScreen(
                                 Icon(
                                     tint = Blue,
                                     imageVector = Icons.AutoMirrored.Outlined.Send,
-                                    contentDescription = "Camera"
+                                    contentDescription = "Send"
                                 )
                             }
                         )
@@ -169,7 +159,11 @@ fun ChatScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AppBar(navController: NavController, photoUser: String) {
+private fun AppBar(
+    nameUser: String,
+    navController: NavController,
+    photoUser: String,
+) {
     TopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -190,7 +184,7 @@ private fun AppBar(navController: NavController, photoUser: String) {
                 CircleAvatarCustom(photoUser = photoUser)
                 Spacer(modifier = Modifier.width(10.dp))
                 Column {
-                    Text("Sophia", style = Typography.headlineMedium)
+                    Text(nameUser, style = Typography.headlineMedium)
                     Row {
                         Text(
                             "Messenger", style = Typography.displayMedium
