@@ -18,6 +18,9 @@ import dev.bellu.messenger_clone.data.database.MessengerDatabase
 import dev.bellu.messenger_clone.data.entity.UserEntity
 import dev.bellu.messenger_clone.presentation.composables.*
 import dev.bellu.messenger_clone.presentation.composables.AppBar
+import dev.bellu.messenger_clone.presentation.screens.chat.ChatViewModel
+import dev.bellu.messenger_clone.presentation.shared.BaseUiState
+import dev.bellu.messenger_clone.presentation.shared.BaseViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
@@ -25,10 +28,10 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: HomeViewModel = getViewModel(),
+    viewModelBase: BaseViewModel = getViewModel(),
 ) {
 
-    val uiState: State<HomeUiState> = viewModel.uiState.collectAsState()
+    val uiState: State<BaseUiState> = viewModelBase.uiState.collectAsState()
 
     MessengerCloneTheme {
         Scaffold(
@@ -76,17 +79,19 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(10.dp))
                     LazyColumn {
                         items(uiState.value.users.size) { index ->
-                            ChatPreview(
-                                photo = uiState.value.users[index].photo,
-                                name = uiState.value.users[index].name,
-                                lastMessageIsYou = true,
-                                lastMessage = "What’s man!",
-                                time = "9:40",
-                                status = true,
-                                onClick = {
-                                    navController.navigate("chat")
-                                }
-                            )
+                            if(index > 0){
+                                ChatPreview(
+                                    photo = uiState.value.users[index].photo,
+                                    name = uiState.value.users[index].name,
+                                    lastMessageIsYou = true,
+                                    lastMessage = "What’s man!",
+                                    time = "9:40",
+                                    status = true,
+                                    onClick = {
+                                        navController.navigate("chat")
+                                    }
+                                )
+                            }
                         }
                     }
                 }

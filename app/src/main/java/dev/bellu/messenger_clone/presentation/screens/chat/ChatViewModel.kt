@@ -1,12 +1,15 @@
 package dev.bellu.messenger_clone.presentation.screens.chat
 
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavHostController
+import dev.bellu.messenger_clone.data.contracts.MessengerDao
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
-class ChatViewModel: ViewModel() {
+class ChatViewModel(private val db: MessengerDao): ViewModel() {
 
-    val img =
-        "https://images.unsplash.com/photo-1596215143922-eedeaba0d91c?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    private val _uiState = MutableStateFlow(ChatUiState())
+    val uiState: StateFlow<ChatUiState> = _uiState.asStateFlow()
 
     val messages: List<String> = listOf(
         "Hello, Jacob!",

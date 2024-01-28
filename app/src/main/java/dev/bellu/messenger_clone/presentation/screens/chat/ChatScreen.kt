@@ -9,26 +9,21 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Send
 import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.material.icons.outlined.Mic
 import androidx.compose.material.icons.outlined.Photo
-import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import dev.bellu.messenger_clone.data.database.MessengerDatabase
 import dev.bellu.messenger_clone.presentation.composables.ReceiveMessage
 import dev.bellu.messenger_clone.presentation.composables.SendMessage
-import dev.bellu.messenger_clone.presentation.screens.home.HomeUiState
-import dev.bellu.messenger_clone.presentation.screens.home.HomeViewModel
+import dev.bellu.messenger_clone.presentation.shared.BaseUiState
+import dev.bellu.messenger_clone.presentation.shared.BaseViewModel
 import dev.bellu.messenger_clone.presentation.theme.Blue
 import dev.bellu.messenger_clone.presentation.theme.MessengerCloneTheme
 import dev.bellu.messenger_clone.presentation.theme.Typography
@@ -38,7 +33,20 @@ import org.koin.androidx.compose.getViewModel
 fun ChatScreen(
     navController: NavController,
     viewModel: ChatViewModel = getViewModel(),
+    viewModelBase: BaseViewModel = getViewModel(),
 ) {
+
+    val uiState: State<ChatUiState> = viewModel.uiState.collectAsState()
+    val uiStateBase: State<BaseUiState> = viewModelBase.uiState.collectAsState()
+
+    val index = uiState.value.currentMessage
+
+    LaunchedEffect(key1 = null){
+        Log.e("Index!", index.toString())
+    }
+
+    val actualName = uiStateBase.value.users.getOrNull(index)?.name ?: "Empty"
+    val actualPhoto = uiStateBase.value.users.getOrNull(index)?.photo ?: "Empty"
 
     var value by remember { mutableStateOf("") }
 
@@ -47,7 +55,7 @@ fun ChatScreen(
             topBar = {
                 AppBar(
                     navController = navController,
-                    photoUser = viewModel.img
+                    photoUser = actualPhoto,
                 )
             },
             content = { innerPadding ->
@@ -65,7 +73,7 @@ fun ChatScreen(
                             .background(color = MaterialTheme.colorScheme.secondary),
                         content = {
                             AsyncImage(
-                                model = viewModel.img,
+                                model = actualPhoto,
                                 contentDescription = "Person",
                                 modifier = Modifier
                                     .fillMaxSize()
@@ -73,7 +81,10 @@ fun ChatScreen(
                         }
                     )
                     Spacer(modifier = Modifier.height(10.dp))
-                    Text("", style = Typography.bodyMedium)
+                    Text(
+                        actualName,
+                        style = Typography.bodyMedium
+                    )
                     Spacer(modifier = Modifier.height(5.dp))
                     Text("You are connected on Messenger", style = Typography.displayMedium)
                     Spacer(modifier = Modifier.height(20.dp))
@@ -93,7 +104,7 @@ fun ChatScreen(
                                 if (index + 1 == lastNumber) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         CircleAvatarCustom(
-                                            photoUser = viewModel.img
+                                            photoUser = actualPhoto
                                         )
                                         Spacer(modifier = Modifier.width(10.dp))
                                         ReceiveMessage(text = viewModel.messages[lastNumber])
