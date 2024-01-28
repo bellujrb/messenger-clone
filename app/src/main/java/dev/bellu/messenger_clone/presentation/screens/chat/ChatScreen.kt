@@ -27,6 +27,7 @@ import dev.bellu.messenger_clone.presentation.shared.BaseViewModel
 import dev.bellu.messenger_clone.presentation.theme.Blue
 import dev.bellu.messenger_clone.presentation.theme.MessengerCloneTheme
 import dev.bellu.messenger_clone.presentation.theme.Typography
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -39,10 +40,15 @@ fun ChatScreen(
     val uiState: State<ChatUiState> = viewModel.uiState.collectAsState()
     val uiStateBase: State<BaseUiState> = viewModelBase.uiState.collectAsState()
 
+    val scope = rememberCoroutineScope()
+
     val index = uiState.value.currentMessage
 
     val actualName = uiStateBase.value.users.getOrNull(index)?.name ?: "Empty"
     val actualPhoto = uiStateBase.value.users.getOrNull(index)?.photo ?: "Empty"
+
+    val ownerChat = uiState.value.ownerChat
+    val userChat = uiState.value.userChat
 
     var value by remember { mutableStateOf("") }
 
@@ -93,25 +99,24 @@ fun ChatScreen(
 
                             items(uiState.value.messages.size) { index ->
 
-                                val ownerChat = uiState.value.ownerChat
-                                val userChat = uiState.value.userChat
-
                                 val senderId: Int = uiState.value.messages[index].senderId
 
                                 if (ownerChat == senderId) {
+                                    Box(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        contentAlignment = Alignment.CenterEnd
+                                    ) {
+                                        SendMessage(text = uiState.value.messages[index].content)
+                                    }
+                                }
+
+                                if (userChat == senderId) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         CircleAvatarCustom(
                                             photoUser = actualPhoto
                                         )
                                         Spacer(modifier = Modifier.width(10.dp))
                                         ReceiveMessage(text = uiState.value.messages[index].content)
-                                    }
-                                }
-
-                                if (userChat == senderId) {
-                                    Row {
-                                        Spacer(modifier = Modifier.fillMaxSize(0.7f))
-                                        SendMessage(text = uiState.value.messages[index].content)
                                     }
                                 }
                             }
@@ -141,7 +146,17 @@ fun ChatScreen(
                         )
                         Spacer(modifier = Modifier.width(5.dp))
                         IconButton(
-                            onClick = { /*TODO*/ },
+                            onClick = {
+                                scope.launch {
+                                    viewModel.sendMessage(
+                                        senderId = ownerChat,
+                                        receiverId = userChat,
+                                        content = value
+                                    )
+
+                                    value = ""
+                                }
+                            },
                             content = {
                                 Icon(
                                     tint = Blue,

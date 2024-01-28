@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ChatViewModel(private val db: MessengerDao): ViewModel() {
+class ChatViewModel(private val db: MessengerDao) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ChatUiState())
     val uiState: StateFlow<ChatUiState> = _uiState.asStateFlow()
@@ -23,6 +23,26 @@ class ChatViewModel(private val db: MessengerDao): ViewModel() {
             generateMessages()
         }
     }
+
+    suspend fun sendMessage(senderId: Int, receiverId: Int, content: String) {
+        val sendMessage = MessageEntity(
+            senderId = senderId,
+            receiverId = receiverId,
+            content = content,
+            timestamp = System.currentTimeMillis()
+        )
+
+        withContext(Dispatchers.IO) {
+            db.sendMessage(sendMessage)
+
+            val messagesFromDb = db.getAllMessages()
+
+            _uiState.value = _uiState.value.copy(
+                messages = messagesFromDb
+            )
+        }
+    }
+
     private suspend fun generateMessages() {
         withContext(Dispatchers.IO) {
             val messagesFromDb = db.getAllMessages()
@@ -34,5 +54,5 @@ class ChatViewModel(private val db: MessengerDao): ViewModel() {
 
         Log.e("Messages", _uiState.value.messages.toString())
     }
-
 }
+

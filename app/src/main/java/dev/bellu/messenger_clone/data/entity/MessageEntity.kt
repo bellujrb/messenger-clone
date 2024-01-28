@@ -24,17 +24,17 @@ import androidx.room.PrimaryKey
 data class MessageEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Int,
+    val id: Int = 0,
 
     @ColumnInfo(name = "sender_id")
-    val senderId: Int,
+    val senderId: Int = 0,
 
     @ColumnInfo(name = "receiver_id")
-    val receiverId: Int,
+    val receiverId: Int = 0,
 
     @ColumnInfo(name = "content")
-    val content: String,
+    val content: String = "",
 
     @ColumnInfo(name = "timestamp")
-    val timestamp: Long
+    val timestamp: Long = 0
 )
