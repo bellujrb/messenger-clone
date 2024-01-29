@@ -24,23 +24,23 @@ class ChatViewModel(private val db: MessengerDao) : ViewModel() {
         }
     }
 
-    suspend fun sendMessage(senderId: Int, receiverId: Int, content: String) {
-//        val sendMessage = MessageEntity(
-//            senderId = senderId,
-//            receiverId = receiverId,
-//            content = content,
-//            timestamp = System.currentTimeMillis()
-//        )
-//
-//        withContext(Dispatchers.IO) {
-//            db.sendMessage(sendMessage)
-//
-//            val messagesFromDb = db.getAllMessages()
-//
-//            _uiState.value = _uiState.value.copy(
-//                messages = messagesFromDb
-//            )
-//        }
+    suspend fun sendMessage(senderId: Int, conversationId: Int, content: String) {
+        val sendMessage = MessageEntity(
+            senderId = senderId,
+            conversationId = conversationId,
+            content = content,
+            timestamp = System.currentTimeMillis()
+        )
+
+        withContext(Dispatchers.IO) {
+            db.sendMessage(sendMessage)
+
+            val messagesFromDb = db.getAllMessages()
+
+            _uiState.value = _uiState.value.copy(
+                messages = messagesFromDb
+            )
+        }
     }
 
     private suspend fun generateMessages() {

@@ -152,7 +152,7 @@ fun ChatScreen(
                                 scope.launch {
                                     viewModel.sendMessage(
                                         senderId = ownerChat,
-                                        receiverId = userChat,
+                                        conversationId = userChat,
                                         content = value
                                     )
 

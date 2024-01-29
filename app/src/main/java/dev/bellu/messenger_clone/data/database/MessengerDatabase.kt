@@ -12,8 +12,14 @@ import dev.bellu.messenger_clone.data.entity.UserConversationCrossRefEntity
 import dev.bellu.messenger_clone.data.entity.UserEntity
 
 @Database(
-    entities = [UserEntity::class, MessageEntity::class, ConversationEntity::class, UserConversationCrossRefEntity::class, AdvertisingEntity::class],
-    version = 2,
+    entities = [
+        UserEntity::class,
+        MessageEntity::class,
+        ConversationEntity::class,
+        UserConversationCrossRefEntity::class,
+        AdvertisingEntity::class
+    ],
+    version = 1,
     exportSchema = false
 )
 abstract class MessengerDatabase : RoomDatabase() {
@@ -21,7 +27,7 @@ abstract class MessengerDatabase : RoomDatabase() {
 
     companion object {
 
-        private const val DATABASE_NAME = "messenger_database"
+        private const val DATABASE_NAME = "messenger_database.db"
 
         @Volatile
         private var instance: MessengerDatabase? = null
@@ -37,7 +43,7 @@ abstract class MessengerDatabase : RoomDatabase() {
                 MessengerDatabase::class.java,
                 DATABASE_NAME
             )
-                .fallbackToDestructiveMigration()
+                .fallbackToDestructiveMigrationFrom()
                 .build()
         }
     }

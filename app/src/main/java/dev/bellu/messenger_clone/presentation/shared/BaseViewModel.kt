@@ -19,6 +19,7 @@ class BaseViewModel(private val db: MessengerDao): ViewModel(){
 
     init {
         viewModelScope.launch {
+
             _uiState.value = _uiState.value.copy(
                 users = fetchDatabase()
             )
