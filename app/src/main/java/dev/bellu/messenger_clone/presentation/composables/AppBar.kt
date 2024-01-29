@@ -57,14 +57,7 @@ fun AppBar(title: String, model: String, navController: NavController) {
         },
         actions = {
             CircleItem(
-                icon = Icons.Outlined.CameraAlt,
-                description = "Camera",
-                onClick = {}
-            )
-            Spacer(modifier = Modifier.width(10.dp))
-            CircleItem(
                 icon = Icons.Outlined.NewLabel,
-                description = "Send",
                 onClick = {}
             )
         }
@@ -72,7 +65,7 @@ fun AppBar(title: String, model: String, navController: NavController) {
 }
 
 @Composable
-private fun CircleItem(icon: ImageVector, description: String, onClick: () -> Unit) {
+private fun CircleItem(icon: ImageVector, onClick: () -> Unit) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -88,7 +81,7 @@ private fun CircleItem(icon: ImageVector, description: String, onClick: () -> Un
     ) {
         Icon(
             imageVector = icon,
-            contentDescription = description
+            contentDescription = "Send"
         )
     }
 }

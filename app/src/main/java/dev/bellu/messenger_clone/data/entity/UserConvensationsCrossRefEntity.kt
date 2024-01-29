@@ -1,16 +1,17 @@
 package dev.bellu.messenger_clone.data.entity
+
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "messages",
+    tableName = "user_conversation",
+    primaryKeys = ["user_id", "conversation_id"],
     foreignKeys = [
         ForeignKey(
             entity = UserEntity::class,
             parentColumns = ["id"],
-            childColumns = ["sender_id"],
+            childColumns = ["user_id"],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
@@ -21,20 +22,10 @@ import androidx.room.PrimaryKey
         )
     ]
 )
-data class MessageEntity(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    val id: Int = 0,
-
-    @ColumnInfo(name = "sender_id")
-    val senderId: Int = 0,
+data class UserConversationCrossRefEntity(
+    @ColumnInfo(name = "user_id")
+    val userId: Int,
 
     @ColumnInfo(name = "conversation_id")
-    val conversationId: Int,
-
-    @ColumnInfo(name = "content")
-    val content: String = "",
-
-    @ColumnInfo(name = "timestamp")
-    val timestamp: Long = 0
+    val conversationId: Int
 )

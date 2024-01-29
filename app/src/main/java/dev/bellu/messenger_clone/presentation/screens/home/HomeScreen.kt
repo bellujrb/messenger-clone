@@ -65,16 +65,23 @@ fun HomeScreen(
                     }
                     Spacer(modifier = Modifier.height(10.dp))
                     Row {
-                        AddStory()
+                        AddNote(
+                            onClick = {
+                                navController.navigate("note")
+                            }
+                        )
                         LazyRow(
                             modifier = Modifier
                                 .height(100.dp)
                         ) {
                             items(uiState.value.users.size) { index ->
                                 if (index > 0) {
-                                    PersonStory(
+                                    PersonView(
                                         name = uiState.value.users[index].name,
-                                        photo = uiState.value.users[index].photo
+                                        photo = uiState.value.users[index].photo,
+                                        onClick = {
+                                            navController.navigate("chat")
+                                        }
                                     )
                                 }
                             }

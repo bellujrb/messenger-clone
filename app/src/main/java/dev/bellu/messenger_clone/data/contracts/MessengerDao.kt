@@ -15,5 +15,8 @@ interface MessengerDao {
     fun getAllMessages(): List<MessageEntity>
 
     @Insert
+    fun addUser(userEntity: UserEntity)
+
+    @Insert
     fun sendMessage(message: MessageEntity)
 }

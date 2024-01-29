@@ -1,8 +1,8 @@
 package dev.bellu.messenger_clone.presentation.composables
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.sharp.Add
@@ -12,32 +12,34 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import dev.bellu.messenger_clone.presentation.theme.Typography
 
 @Composable
-fun PersonStory(name: String, photo: String) {
+fun AddNote(note: String = "Your Note", onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(4.dp)
     ) {
-        Box(
+        Box(contentAlignment = Alignment.Center,
             modifier = Modifier
                 .height(52.dp)
                 .width(52.dp)
-                .clip(shape = CircleShape)
-                .background(color = MaterialTheme.colorScheme.secondary),
+                .clickable { onClick() }
+                .background(
+                    color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.08F),
+                    shape = RoundedCornerShape(100)
+                ),
             content = {
-                AsyncImage(
-                    model = photo,
-                    contentDescription = "Person",
+                Icon(
+                    imageVector = Icons.Sharp.Add,
+                    contentDescription = "Add",
                     modifier = Modifier
-                        .fillMaxSize()
+                        .height(21.dp)
+                        .width(25.dp)
                 )
             }
         )
-        Text(name, style = Typography.displaySmall)
+        Text(note, style = Typography.displaySmall)
     }
 }
