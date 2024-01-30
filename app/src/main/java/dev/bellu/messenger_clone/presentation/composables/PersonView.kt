@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import dev.bellu.messenger_clone.presentation.theme.Black
 import dev.bellu.messenger_clone.presentation.theme.Typography
 
 @Composable
@@ -26,7 +27,7 @@ fun PersonView(name: String, photo: String, onClick: () -> Unit) {
                 .height(52.dp)
                 .width(52.dp)
                 .clip(shape = CircleShape)
-                .background(color = MaterialTheme.colorScheme.secondary),
+                .background(color = Black),
             content = {
                 AsyncImage(
                     model = photo,

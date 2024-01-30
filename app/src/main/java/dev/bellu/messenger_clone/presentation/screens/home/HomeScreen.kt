@@ -45,7 +45,7 @@ fun HomeScreen(
                 )
             },
             containerColor = MaterialTheme.colorScheme.background,
-            bottomBar = { BottomBarCustom() }
+            bottomBar = { BottomBarCustom(navController) }
         ) { innerPadding ->
             Surface(
                 modifier = Modifier
@@ -80,6 +80,7 @@ fun HomeScreen(
                                         name = uiState.value.users[index].name,
                                         photo = uiState.value.users[index].photo,
                                         onClick = {
+                                            viewModelBase.updateConversationIndex(index)
                                             navController.navigate("chat")
                                         }
                                     )
@@ -99,6 +100,7 @@ fun HomeScreen(
                                     time = "9:40",
                                     status = true,
                                     onClick = {
+                                        viewModelBase.updateConversationIndex(index)
                                         navController.navigate("chat")
                                     }
                                 )

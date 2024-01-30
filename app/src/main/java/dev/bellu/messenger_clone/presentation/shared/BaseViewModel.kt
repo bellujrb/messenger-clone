@@ -17,9 +17,12 @@ class BaseViewModel(private val db: MessengerDao): ViewModel(){
     private val _uiState = MutableStateFlow(BaseUiState())
     val uiState: StateFlow<BaseUiState> = _uiState.asStateFlow()
 
+    fun updateConversationIndex(index: Int){
+        AppState.conversationIndex = index
+    }
+
     init {
         viewModelScope.launch {
-
             _uiState.value = _uiState.value.copy(
                 users = fetchDatabase()
             )

@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import dev.bellu.messenger_clone.R
+import dev.bellu.messenger_clone.presentation.theme.Black
 import dev.bellu.messenger_clone.presentation.theme.Typography
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -103,7 +104,7 @@ fun ChatPreview(
                     .height(60.dp)
                     .width(60.dp)
                     .clip(shape = CircleShape)
-                    .background(color = MaterialTheme.colorScheme.secondary),
+                    .background(color = Black),
                 content = {
                     AsyncImage(
                         model = photo,

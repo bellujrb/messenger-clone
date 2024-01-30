@@ -22,8 +22,10 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import dev.bellu.messenger_clone.presentation.composables.ReceiveMessage
 import dev.bellu.messenger_clone.presentation.composables.SendMessage
+import dev.bellu.messenger_clone.presentation.shared.AppState
 import dev.bellu.messenger_clone.presentation.shared.BaseUiState
 import dev.bellu.messenger_clone.presentation.shared.BaseViewModel
+import dev.bellu.messenger_clone.presentation.theme.Black
 import dev.bellu.messenger_clone.presentation.theme.Blue
 import dev.bellu.messenger_clone.presentation.theme.MessengerCloneTheme
 import dev.bellu.messenger_clone.presentation.theme.Typography
@@ -42,7 +44,7 @@ fun ChatScreen(
 
     val scope = rememberCoroutineScope()
 
-    val index = uiState.value.currentMessage
+    val index = AppState.conversationIndex
 
     val actualName = uiStateBase.value.users.getOrNull(index)?.name ?: "Empty"
     val actualPhoto = uiStateBase.value.users.getOrNull(index)?.photo ?: "Empty"
@@ -73,7 +75,7 @@ fun ChatScreen(
                             .height(100.dp)
                             .width(100.dp)
                             .clip(shape = CircleShape)
-                            .background(color = MaterialTheme.colorScheme.secondary),
+                            .background(color = Black),
                         content = {
                             AsyncImage(
                                 model = actualPhoto,
@@ -220,7 +222,7 @@ private fun CircleAvatarCustom(photoUser: String) {
             .height(40.dp)
             .width(40.dp)
             .clip(shape = CircleShape)
-            .background(color = MaterialTheme.colorScheme.secondary),
+            .background(color = Black),
         content = {
             AsyncImage(
                 model = photoUser,

@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.bellu.messenger_clone.presentation.screens.chat.ChatScreen
+import dev.bellu.messenger_clone.presentation.screens.friends.FriendsScreen
 import dev.bellu.messenger_clone.presentation.screens.home.HomeScreen
 import dev.bellu.messenger_clone.presentation.screens.note.NoteScreen
 import dev.bellu.messenger_clone.presentation.screens.settings.SettingsScreen
@@ -27,6 +28,7 @@ fun AppNavGraph(
         composable("welcome"){ WelcomeScreen(navController)}
         composable("home"){ HomeScreen(navController)}
         composable("chat"){ ChatScreen(navController)}
+        composable("friends") { FriendsScreen(navController)}
         composable("settings") { SettingsScreen(navController) }
         composable("note") { NoteScreen(navController)}
     }
