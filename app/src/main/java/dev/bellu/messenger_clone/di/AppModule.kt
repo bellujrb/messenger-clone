@@ -3,6 +3,7 @@ package dev.bellu.messenger_clone.di
 import dev.bellu.messenger_clone.data.contracts.MessengerDao
 import dev.bellu.messenger_clone.data.database.MessengerDatabase
 import dev.bellu.messenger_clone.presentation.screens.chat.ChatViewModel
+import dev.bellu.messenger_clone.presentation.screens.friends.FriendsViewModel
 import dev.bellu.messenger_clone.presentation.shared.BaseViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -26,6 +27,12 @@ val appModule = module {
 
     viewModel<ChatViewModel> {
         ChatViewModel(
+            db = get()
+        )
+    }
+
+    viewModel<FriendsViewModel>{
+        FriendsViewModel(
             db = get()
         )
     }

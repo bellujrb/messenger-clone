@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import dev.bellu.messenger_clone.presentation.composables.CircleAvatarCustom
 import dev.bellu.messenger_clone.presentation.composables.ReceiveMessage
 import dev.bellu.messenger_clone.presentation.composables.SendMessage
 import dev.bellu.messenger_clone.presentation.shared.AppState
@@ -117,7 +118,8 @@ fun ChatScreen(
                                 if (userChat == senderId) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         CircleAvatarCustom(
-                                            photoUser = actualPhoto
+                                            photoUser = actualPhoto,
+                                            size = 40.dp
                                         )
                                         Spacer(modifier = Modifier.width(10.dp))
                                         ReceiveMessage(text = uiState.value.messages[index].content)
@@ -200,7 +202,7 @@ private fun AppBar(
                     }
                 )
                 Spacer(modifier = Modifier.width(5.dp))
-                CircleAvatarCustom(photoUser = photoUser)
+                CircleAvatarCustom(photoUser = photoUser, size = 40.dp)
                 Spacer(modifier = Modifier.width(10.dp))
                 Column {
                     Text(nameUser, style = Typography.headlineMedium)
@@ -215,24 +217,7 @@ private fun AppBar(
     )
 }
 
-@Composable
-private fun CircleAvatarCustom(photoUser: String) {
-    Box(
-        modifier = Modifier
-            .height(40.dp)
-            .width(40.dp)
-            .clip(shape = CircleShape)
-            .background(color = Black),
-        content = {
-            AsyncImage(
-                model = photoUser,
-                contentDescription = "Person",
-                modifier = Modifier
-                    .fillMaxSize()
-            )
-        }
-    )
-}
+
 
 @Composable
 private fun IconsChat() {

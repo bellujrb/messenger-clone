@@ -32,6 +32,9 @@ fun BottomBarCustom(navController: NavController){
                 modifier = Modifier
                     .height(24.dp)
                     .width(24.dp)
+                    .clickable {
+                        navController.navigate("home")
+                    }
 
             )
             Spacer(modifier = Modifier.weight(1f))
