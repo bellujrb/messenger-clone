@@ -35,6 +35,7 @@ I am creating a clone of an existing application to study Android development fe
   
 ### Design Pattern
 - MVVM
+- Singleton
   
 ### Architecture 
 - Clean Architecture
