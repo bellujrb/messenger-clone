@@ -25,7 +25,7 @@ abstract class MessengerDatabase : RoomDatabase() {
 
     companion object {
 
-        private const val DATABASE_NAME = "messenger_data2.db"
+        private const val DATABASE_NAME = "messenger.db"
 
         @Volatile
         private var instance: MessengerDatabase? = null
