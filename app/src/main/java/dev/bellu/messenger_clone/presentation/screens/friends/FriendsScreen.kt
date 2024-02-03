@@ -18,7 +18,6 @@ import androidx.navigation.NavController
 import dev.bellu.messenger_clone.presentation.composables.AppBar
 import dev.bellu.messenger_clone.presentation.composables.BottomBarCustom
 import dev.bellu.messenger_clone.presentation.composables.CircleAvatarCustom
-import dev.bellu.messenger_clone.presentation.composables.InputSearch
 import dev.bellu.messenger_clone.presentation.shared.AppState
 import dev.bellu.messenger_clone.presentation.shared.BaseUiState
 import dev.bellu.messenger_clone.presentation.shared.BaseViewModel
@@ -32,7 +31,7 @@ import org.koin.androidx.compose.getViewModel
 fun FriendsScreen(
     navController: NavController,
     viewModel: FriendsViewModel = getViewModel(),
-    viewModelBase: BaseViewModel = getViewModel()
+    viewModelBase: BaseViewModel = getViewModel(),
 ) {
 
     val uiStateBase: State<BaseUiState> = viewModelBase.uiState.collectAsState()
@@ -61,34 +60,41 @@ fun FriendsScreen(
                 .fillMaxSize()
         ) {
             Spacer(modifier = Modifier.height(10.dp))
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxWidth()
+            LazyColumn(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth(),
             ) {
-                InputSearch()
-            }
-            Spacer(modifier = Modifier.height(10.dp))
-            LazyColumn {
-                items(uiStateBase.value.users.size) { index ->
-                    if (index > 0) {
-                        FriendComponent(
-                            photoUser = uiStateBase.value.users[index].photo,
-                            nameUser = uiStateBase.value.users[index].name,
-                            status = uiStateBase.value.users[index].status,
-                            onClick = {
-                                scope.launch {
-                                    viewModel.createConversation(
-                                        index = index,
-                                        user1 = 1,
-                                        user2 = index,
-                                        navigateToChat = {
-                                            viewModelBase.updateConversationIndex(index)
-                                            navController.navigate("chat")
-                                        }
-                                    )
-                                }
-                            }
+                if (uiStateBase.value.users.isEmpty()) {
+                    item {
+                        Text(
+                            text = "No friends available", style = Typography.headlineMedium,
+                            modifier = Modifier
+                                .padding(24.dp)
                         )
+                    }
+                } else {
+                    items(uiStateBase.value.users.size) { index ->
+                        if (index > 0) {
+                            FriendComponent(
+                                photoUser = uiStateBase.value.users[index].photo,
+                                nameUser = uiStateBase.value.users[index].name,
+                                status = uiStateBase.value.users[index].status,
+                                onClick = {
+                                    scope.launch {
+                                        viewModel.createConversation(
+                                            index = index,
+                                            user1 = 1,
+                                            user2 = index,
+                                            navigateToChat = {
+                                                viewModelBase.updateConversationIndex(index)
+                                                navController.navigate("chat")
+                                            }
+                                        )
+                                    }
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -98,14 +104,15 @@ fun FriendsScreen(
 
 @Composable
 private fun FriendComponent(photoUser: String, nameUser: String, status: Boolean, onClick: () -> Unit) {
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(
-            top = 5.dp,
-            bottom = 5.dp,
-            start = 20.dp,
-            end = 20.dp
-        )
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                top = 5.dp,
+                bottom = 5.dp,
+                start = 20.dp,
+                end = 20.dp
+            )
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -119,20 +126,23 @@ private fun FriendComponent(photoUser: String, nameUser: String, status: Boolean
                     photoUser = photoUser,
                     size = 40.dp
                 )
-                if(status){
-                    Box(modifier = Modifier
-                        .height(10.dp)
-                        .width(10.dp)
-                        .offset(
-                            y = (-10).dp,
-                            x = 30.dp
-                        )
-                        .background(color = Green, shape = RoundedCornerShape(100))
+                if (status) {
+                    Box(
+                        modifier = Modifier
+                            .height(10.dp)
+                            .width(10.dp)
+                            .offset(
+                                y = (-10).dp,
+                                x = 30.dp
+                            )
+                            .background(color = Green, shape = RoundedCornerShape(100))
                     )
                 } else {
-                    Spacer(modifier = Modifier
-                        .height(10.dp)
-                        .width(10.dp))
+                    Spacer(
+                        modifier = Modifier
+                            .height(10.dp)
+                            .width(10.dp)
+                    )
                 }
             }
             Spacer(modifier = Modifier.width(10.dp))

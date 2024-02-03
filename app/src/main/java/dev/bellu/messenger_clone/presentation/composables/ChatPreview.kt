@@ -38,37 +38,14 @@ import kotlin.math.roundToInt
 fun ChatPreview(
     photo: String,
     name: String,
-    lastMessageIsYou: Boolean,
-    lastMessage: String,
-    time: String,
-    status: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
-
-    var offsetX by remember { mutableFloatStateOf(0f) }
-    val minOffsetX = 0f
-    val maxOffsetX =  100f
-
-    val scope = rememberCoroutineScope()
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(76.dp)
             .clickable { onClick() }
-            .offset { IntOffset(offsetX.roundToInt(), 0) }
-            .draggable(
-                orientation = Orientation.Horizontal,
-                state = rememberDraggableState { delta ->
-                    offsetX = (offsetX + delta).coerceIn(minOffsetX, maxOffsetX)
-                },
-                onDragStopped = {
-                    scope.launch {
-                        delay(5000)
-                        offsetX = 0f
-                    }
-                }
-            ),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -80,25 +57,6 @@ fun ChatPreview(
                     start = 20.dp
                 )
         ) {
-            if(offsetX > 0){
-                CircleItem(
-                    icon = Icons.Outlined.Build,
-                    description = "Camera",
-                    onClick = {}
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                CircleItem(
-                    icon = Icons.Outlined.SettingsCell,
-                    description = "Ligar",
-                    onClick = {}
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                CircleItem(
-                    icon = Icons.Outlined.Clear,
-                    description = "Apagar",
-                    onClick = {}
-                )
-            }
             Box(
                 modifier = Modifier
                     .height(60.dp)
@@ -117,29 +75,8 @@ fun ChatPreview(
 
             Column {
                 Text(name, style = Typography.headlineMedium)
-                Row {
-                    Text(
-                        "" +
-                                "${
-                                    if (lastMessageIsYou)
-                                        "You:" else "$name:"
-                                } " +
-                                "$lastMessage · ", style = Typography.displayMedium
-                    )
-                    Text("$time AM", style = Typography.displayMedium)
-                }
-            }
-
-            Spacer(modifier = Modifier.width(32.dp))
-            if (status) {
-                Image(
-                    painter = painterResource(id = R.drawable.read),
-                    contentDescription = "Read"
-                )
-            } else {
-                Image(
-                    painter = painterResource(id = R.drawable.noread),
-                    contentDescription = "NO Read"
+                Text(
+                    "You are connected on messenger.\n", style = Typography.displayMedium
                 )
             }
         }

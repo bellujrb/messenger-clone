@@ -12,7 +12,6 @@ import dev.bellu.messenger_clone.presentation.screens.advertising.AdvertisingScr
 import dev.bellu.messenger_clone.presentation.screens.chat.ChatScreen
 import dev.bellu.messenger_clone.presentation.screens.friends.FriendsScreen
 import dev.bellu.messenger_clone.presentation.screens.home.HomeScreen
-import dev.bellu.messenger_clone.presentation.screens.note.NoteScreen
 import dev.bellu.messenger_clone.presentation.screens.settings.SettingsScreen
 import dev.bellu.messenger_clone.presentation.screens.welcome.WelcomeScreen
 
@@ -31,7 +30,6 @@ fun AppNavGraph(
         composable("chat"){ ChatScreen(navController)}
         composable("friends") { FriendsScreen(navController)}
         composable("advertising") { AdvertisingScreen(navController)}
-        composable("note") { NoteScreen(navController)}
         composable("settings") { SettingsScreen(navController) }
     }
 }

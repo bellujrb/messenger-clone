@@ -1,6 +1,6 @@
 package dev.bellu.messenger_clone.data.database
 
-import AdvertisingEntity
+import dev.bellu.messenger_clone.data.entity.AdvertisingEntity
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
@@ -25,7 +25,7 @@ abstract class MessengerDatabase : RoomDatabase() {
 
     companion object {
 
-        private const val DATABASE_NAME = "messenger_data.db"
+        private const val DATABASE_NAME = "messenger_data2.db"
 
         @Volatile
         private var instance: MessengerDatabase? = null

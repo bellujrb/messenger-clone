@@ -21,6 +21,7 @@ import dev.bellu.messenger_clone.presentation.composables.AppBar
 import dev.bellu.messenger_clone.presentation.screens.chat.ChatViewModel
 import dev.bellu.messenger_clone.presentation.shared.BaseUiState
 import dev.bellu.messenger_clone.presentation.shared.BaseViewModel
+import dev.bellu.messenger_clone.presentation.theme.Typography
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
@@ -61,56 +62,48 @@ fun HomeScreen(
                 Column(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        InputSearch()
-                    }
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Row {
-                        AddNote(
-                            onClick = {
-                                navController.navigate("note")
-                            }
-                        )
-                        LazyRow(
-                            modifier = Modifier
-                                .height(100.dp)
-                        ) {
-                            items(uiState.value.users.size) { index ->
-                                if (index > 0) {
-                                    PersonView(
-                                        name = uiState.value.users[index].name,
-                                        photo = uiState.value.users[index].photo,
-                                        onClick = {
-                                            viewModelBase.updateConversationIndex(index)
-                                            navController.navigate("chat")
-                                        }
-                                    )
-                                }
+                    LazyRow {
+                        items(uiState.value.users.size) { index ->
+                            if (index > 0) {
+                                PersonView(
+                                    name = uiState.value.users[index].name,
+                                    photo = uiState.value.users[index].photo,
+                                    onClick = {
+                                        viewModelBase.updateConversationIndex(index)
+                                        navController.navigate("chat")
+                                    }
+                                )
                             }
                         }
                     }
                     Spacer(modifier = Modifier.height(10.dp))
-                    LazyColumn {
-                        items(uiState.value.conversations.size) { index ->
+                    LazyColumn(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                    ) {
+                        if (uiState.value.users.isEmpty()) {
+                            item {
+                                Text(
+                                    text = "No conversations available", style = Typography.headlineMedium,
+                                    modifier = Modifier
+                                        .padding(24.dp)
+                                )
+                            }
+                        } else {
+                            items(uiState.value.conversations.size) { index ->
 
-                            val actualIndex = index + 1
+                                val actualIndex = index + 1
 
-                            ChatPreview(
-                                photo = uiState.value.users[actualIndex].photo,
-                                name = uiState.value.users[actualIndex].name,
-                                lastMessageIsYou = true,
-                                lastMessage = "What’s man!",
-                                time = "9:40",
-                                status = true,
-                                onClick = {
-                                    viewModelBase.updateConversationIndex(actualIndex)
-                                    navController.navigate("chat")
-                                }
-                            )
+                                ChatPreview(
+                                    photo = uiState.value.users[actualIndex].photo,
+                                    name = uiState.value.users[actualIndex].name,
+                                    onClick = {
+                                        viewModelBase.updateConversationIndex(actualIndex)
+                                        navController.navigate("chat")
+                                    }
+                                )
+                            }
                         }
                     }
                 }

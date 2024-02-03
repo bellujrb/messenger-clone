@@ -58,7 +58,9 @@ fun AppBar(title: String, model: String, navController: NavController) {
         actions = {
             CircleItem(
                 icon = Icons.Outlined.NewLabel,
-                onClick = {}
+                onClick = {
+                    navController.navigate("friends")
+                }
             )
         }
     )

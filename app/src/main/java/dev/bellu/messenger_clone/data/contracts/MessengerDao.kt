@@ -1,5 +1,6 @@
 package dev.bellu.messenger_clone.data.contracts
 
+import dev.bellu.messenger_clone.data.entity.AdvertisingEntity
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -18,6 +19,9 @@ interface MessengerDao {
     @Query("SELECT * FROM conversations")
     fun getAllConversations(): List<ConversationEntity>
 
+    @Query("SELECT * FROM advertising")
+    fun getAllAdvertising(): List<AdvertisingEntity>
+
     @Insert
     fun addUser(userEntity: UserEntity)
 
@@ -26,4 +30,7 @@ interface MessengerDao {
 
     @Insert
     fun createConversation(conversation: ConversationEntity)
+
+    @Insert
+    fun createAdvertising(advertising: AdvertisingEntity)
 }
