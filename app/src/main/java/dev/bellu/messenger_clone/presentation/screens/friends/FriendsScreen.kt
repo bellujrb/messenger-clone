@@ -19,6 +19,7 @@ import dev.bellu.messenger_clone.presentation.composables.AppBar
 import dev.bellu.messenger_clone.presentation.composables.BottomBarCustom
 import dev.bellu.messenger_clone.presentation.composables.CircleAvatarCustom
 import dev.bellu.messenger_clone.presentation.composables.InputSearch
+import dev.bellu.messenger_clone.presentation.shared.AppState
 import dev.bellu.messenger_clone.presentation.shared.BaseUiState
 import dev.bellu.messenger_clone.presentation.shared.BaseViewModel
 import dev.bellu.messenger_clone.presentation.theme.Black30
@@ -74,8 +75,13 @@ fun FriendsScreen(
                             onClick = {
                                 scope.launch {
                                     viewModel.createConversation(
+                                        index = index,
                                         user1 = 1,
                                         user2 = index,
+                                        navigateToChat = {
+                                            viewModelBase.updateConversationIndex(index)
+                                            navController.navigate("chat")
+                                        }
                                     )
                                 }
                             }

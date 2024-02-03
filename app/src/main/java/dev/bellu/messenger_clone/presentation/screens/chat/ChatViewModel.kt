@@ -47,7 +47,7 @@ class ChatViewModel(private val db: MessengerDao) : ViewModel() {
             )
         }
 
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             _uiState.value = _uiState.value.copy(
                 messagesConversation = contentList
             )
@@ -73,6 +73,8 @@ class ChatViewModel(private val db: MessengerDao) : ViewModel() {
                 messages = messagesFromDb
             )
         }
+
+        loadMessages(conversationId)
     }
 
     private suspend fun generateMessages() {

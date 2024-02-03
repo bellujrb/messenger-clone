@@ -158,7 +158,7 @@ fun ChatScreen(
                             onClick = {
                                 scope.launch {
                                     viewModel.sendMessage(
-                                        senderId = index,
+                                        senderId = user1,
                                         conversationId = index,
                                         content = value
                                     )

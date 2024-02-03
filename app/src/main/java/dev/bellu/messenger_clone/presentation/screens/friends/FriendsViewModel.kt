@@ -13,14 +13,43 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class FriendsViewModel(private val db: MessengerDao) : ViewModel() {
-    suspend fun createConversation(user1: Int, user2: Int) {
-        withContext(Dispatchers.IO) {
-            db.createConversation(
-                ConversationEntity(
-                    user1Id = user1,
-                    user2Id = user2 + 1
+
+    private var conversations: List<ConversationEntity> = listOf()
+    init {
+        viewModelScope.launch {
+            conversations = loadConversations()
+            Log.e("Friends", conversations.toString())
+        }
+    }
+
+    private suspend fun loadConversations(): List<ConversationEntity>{
+
+        var conversationsList: List<ConversationEntity>
+
+        withContext(Dispatchers.IO){
+            conversationsList = db.getAllConversations()
+        }
+
+        return conversationsList
+    }
+    suspend fun createConversation(index: Int, user1: Int, user2: Int, navigateToChat: () -> Unit) {
+
+        val conversationIdExists = conversations.any { it.id == index}
+
+        if(!conversationIdExists){
+            withContext(Dispatchers.IO) {
+                db.createConversation(
+                    ConversationEntity(
+                        id = index,
+                        user1Id = user1,
+                        user2Id = user2 + 1
+                    )
                 )
-            )
+            }
+            navigateToChat()
+        } else {
+            navigateToChat()
+            Log.e("ERROR CREATE CONVERSATION", "ID EXIST: $index")
         }
     }
 }
