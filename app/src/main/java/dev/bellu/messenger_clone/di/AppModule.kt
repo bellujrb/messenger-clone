@@ -18,22 +18,4 @@ val appModule = module {
     single<MessengerDao> {
         get<MessengerDatabase>().messengerDao()
     }
-
-    viewModel<BaseViewModel> {
-        BaseViewModel(
-            db = get()
-        )
-    }
-
-    viewModel<ChatViewModel> {
-        ChatViewModel(
-            db = get()
-        )
-    }
-
-    viewModel<FriendsViewModel>{
-        FriendsViewModel(
-            db = get()
-        )
-    }
 }

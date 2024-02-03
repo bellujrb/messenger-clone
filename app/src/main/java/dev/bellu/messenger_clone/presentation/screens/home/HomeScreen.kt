@@ -45,7 +45,12 @@ fun HomeScreen(
                 )
             },
             containerColor = MaterialTheme.colorScheme.background,
-            bottomBar = { BottomBarCustom(navController) }
+            bottomBar = {
+                BottomBarCustom(
+                    navController = navController,
+                    isSelected = 1
+                )
+            }
         ) { innerPadding ->
             Surface(
                 modifier = Modifier

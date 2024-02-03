@@ -49,7 +49,10 @@ fun FriendsScreen(
             )
         },
         bottomBar = {
-            BottomBarCustom(navController)
+            BottomBarCustom(
+                navController = navController,
+                isSelected = 2
+            )
         }
     ) { innerPadding ->
         Column(
