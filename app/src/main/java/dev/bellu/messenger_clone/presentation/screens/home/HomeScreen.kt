@@ -90,21 +90,22 @@ fun HomeScreen(
                     }
                     Spacer(modifier = Modifier.height(10.dp))
                     LazyColumn {
-                        items(uiState.value.users.size) { index ->
-                            if(index > 0){
-                                ChatPreview(
-                                    photo = uiState.value.users[index].photo,
-                                    name = uiState.value.users[index].name,
-                                    lastMessageIsYou = true,
-                                    lastMessage = "What’s man!",
-                                    time = "9:40",
-                                    status = true,
-                                    onClick = {
-                                        viewModelBase.updateConversationIndex(index)
-                                        navController.navigate("chat")
-                                    }
-                                )
-                            }
+                        items(uiState.value.conversations.size) { index ->
+
+                            val actualIndex = index + 1
+
+                            ChatPreview(
+                                photo = uiState.value.users[actualIndex].photo,
+                                name = uiState.value.users[actualIndex].name,
+                                lastMessageIsYou = true,
+                                lastMessage = "What’s man!",
+                                time = "9:40",
+                                status = true,
+                                onClick = {
+                                    viewModelBase.updateConversationIndex(actualIndex)
+                                    navController.navigate("chat")
+                                }
+                            )
                         }
                     }
                 }

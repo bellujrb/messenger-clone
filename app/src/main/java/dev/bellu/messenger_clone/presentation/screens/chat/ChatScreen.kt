@@ -43,15 +43,19 @@ fun ChatScreen(
     val uiState: State<ChatUiState> = viewModel.uiState.collectAsState()
     val uiStateBase: State<BaseUiState> = viewModelBase.uiState.collectAsState()
 
-    val scope = rememberCoroutineScope()
-
     val index = AppState.conversationIndex
+
+    LaunchedEffect(key1 = index){
+        viewModel.loadMessages(index)
+    }
+
+    val scope = rememberCoroutineScope()
 
     val actualName = uiStateBase.value.users.getOrNull(index)?.name ?: "Empty"
     val actualPhoto = uiStateBase.value.users.getOrNull(index)?.photo ?: "Empty"
 
-    val ownerChat = uiState.value.ownerChat
-    val userChat = uiState.value.userChat
+    val user1 = AppState.indexMyUser
+    val user2 = index + 1
 
     var value by remember { mutableStateOf("") }
 
@@ -99,30 +103,29 @@ fun ChatScreen(
                             .weight(1f)
                             .fillMaxWidth(0.9f),
                         content = {
-
-                            val sortedMessages = uiState.value.messages.sortedBy { it.timestamp }
+                            val sortedMessages = uiState.value.messagesConversation.sortedBy { it.timestamp }
 
                             items(sortedMessages.size) { index ->
 
-                                val senderId: Int = uiState.value.messages[index].senderId
+                                val senderId: Int = uiState.value.messagesConversation[index].senderId
 
-                                if (ownerChat == senderId) {
+                                if (user1 == senderId) {
                                     Box(
                                         modifier = Modifier.fillMaxWidth(),
                                         contentAlignment = Alignment.CenterEnd
                                     ) {
-                                        SendMessage(text = uiState.value.messages[index].content)
+                                        SendMessage(text = uiState.value.messagesConversation[index].content)
                                     }
                                 }
 
-                                if (userChat == senderId) {
+                                if (user2 == senderId) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         CircleAvatarCustom(
                                             photoUser = actualPhoto,
                                             size = 40.dp
                                         )
                                         Spacer(modifier = Modifier.width(10.dp))
-                                        ReceiveMessage(text = uiState.value.messages[index].content)
+                                        ReceiveMessage(text = uiState.value.messagesConversation[index].content)
                                     }
                                 }
                             }
@@ -155,8 +158,8 @@ fun ChatScreen(
                             onClick = {
                                 scope.launch {
                                     viewModel.sendMessage(
-                                        senderId = ownerChat,
-                                        conversationId = userChat,
+                                        senderId = index,
+                                        conversationId = index,
                                         content = value
                                     )
 

@@ -24,6 +24,38 @@ class ChatViewModel(private val db: MessengerDao) : ViewModel() {
         }
     }
 
+    suspend fun loadMessages(conversationId: Int) {
+        val contentList = mutableListOf<MessageEntity>()
+
+        val conversationMessages = _uiState.value.messages.filter { filter ->
+            filter.conversationId == conversationId
+        }
+
+        conversationMessages.forEach { message ->
+            val id = message.id
+            val senderId = message.senderId
+            val content = message.content
+            val timestamp = message.timestamp
+            contentList.add(
+                MessageEntity(
+                    id = id,
+                    senderId = senderId,
+                    content = content,
+                    conversationId = conversationId,
+                    timestamp = timestamp
+                )
+            )
+        }
+
+        withContext(Dispatchers.IO){
+            _uiState.value = _uiState.value.copy(
+                messagesConversation = contentList
+            )
+        }
+
+        Log.e("loadMessage", _uiState.value.messagesConversation.toString())
+    }
+
     suspend fun sendMessage(senderId: Int, conversationId: Int, content: String) {
         val sendMessage = MessageEntity(
             senderId = senderId,

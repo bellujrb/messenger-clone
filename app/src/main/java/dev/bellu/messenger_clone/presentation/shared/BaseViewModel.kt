@@ -32,7 +32,8 @@ class BaseViewModel(private val db: MessengerDao) : ViewModel() {
             )
             Log.e(
                 "DB", _uiState.value.users.toString() + "\n" +
-                        _uiState.value.conversations.toString()
+                        _uiState.value.messages.toString() + "\n" +
+                _uiState.value.conversations.toString()
             )
         }
     }
