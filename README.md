@@ -111,7 +111,6 @@ Ads need to be added to the database, similar to the process of adding users and
 - Room (Database SQL)
 - Livedata
 - Koin (Injection Dependency)
-- Datastore Preferences RXJAVA 
   
 ### Design Pattern
 - MVVM
